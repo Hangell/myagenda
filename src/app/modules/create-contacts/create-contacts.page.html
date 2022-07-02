@@ -1,9 +1,125 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>create-contacts</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title >{{ title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <form #f (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating"><ion-icon name="man"></ion-icon>Primeiro Nome</ion-label>
+      <ion-input autocapitalize="on" [(ngModel)]="contact.nome" name="nome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="man"></ion-icon>
+        Sobrenome
+      </ion-label>
+      <ion-input type="text" placeholder="Sobrenome" autocapitalize="on" [(ngModel)]="contact.sobrenome" name="sobrenome"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="business"></ion-icon>
+        Empresa
+      </ion-label>
+      <ion-input type="text" placeholder="Empresa" [(ngModel)]="contact.empresa" name="empresa"></ion-input>
+    </ion-item>
 
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header">
+          <ion-label>
+            <ion-icon name="home"></ion-icon>
+            Endereço
+          </ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-item>
+            <ion-label position="floating">Logradouro</ion-label>
+            <ion-input type="text" placeholder="Rua" [(ngModel)]="contact.logradouro" name="logradouro"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-col size="4">
+              <ion-item>
+                <ion-label position="floating">Nº</ion-label>
+                <ion-input type="number" placeholder="Número" [(ngModel)]="contact.numero" name="numero"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-label position="floating">Complemento</ion-label>
+                <ion-input type="text" placeholder="Complemento" [(ngModel)]="contact.complemento" name="complemento"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Bairro</ion-label>
+            <ion-input type="text" placeholder="Bairro" [(ngModel)]="contact.bairro" name="bairro"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Cidade</ion-label>
+            <ion-input type="text" placeholder="Cidade" [(ngModel)]="contact.cidade" name="cidade"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-col size="8">
+              <ion-item>
+                <ion-label position="floating">CEP</ion-label>
+                <ion-input type="text" placeholder="cep" [(ngModel)]="contact.cep" name="cep"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="4">
+              <ion-item>
+                <ion-label position="floating">UF</ion-label>
+                <ion-input type="text" placeholder="UF" [(ngModel)]="contact.uf" name="uf"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-item>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+    <br>
+    <ion-item><ion-icon name="phone-portrait"></ion-icon><h5>Telefone</h5></ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="call"></ion-icon>
+        Profissional
+      </ion-label>
+      <ion-input type="text" placeholder="Telefone Profissional" [(ngModel)]="contact.foneProfissional" name="foneProfissional"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="phone-portrait"></ion-icon>
+        Pessoal
+      </ion-label>
+      <ion-input type="text" placeholder="Telefone Pessoal" [(ngModel)]="contact.fonePessoal" name="fonePessoal"></ion-input>
+    </ion-item>
+    <br>
+    <ion-item><ion-icon name="mail" ></ion-icon><h5> Email</h5></ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="mail"></ion-icon>
+        Profissional
+      </ion-label>
+      <ion-input type="text" placeholder="Email Profissional" [(ngModel)]="contact.emailProfissional" name="emailProfissional"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">
+        <ion-icon name="mail"></ion-icon>
+        Pessoal
+      </ion-label>
+      <ion-input type="text" placeholder="Email Pessoal" [(ngModel)]="contact.emailPessoal" name="emailPessoal"></ion-input>
+    </ion-item>
+    <br>
+    <ion-item><ion-icon name="mail"></ion-icon><h5>Observações</h5></ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Observações" [(ngModel)]="contact.observacoes" name="observacoes"></ion-textarea>
+    </ion-item>
+    <!--Final-->
+    <div class="ion-margin-vertical">
+      <ion-button type="submit" color="secondary" expand="block" [disabled]="f.oninvalid">Salvar</ion-button>
+    </div>
+  </form>
 </ion-content>

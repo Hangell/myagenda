@@ -1,8 +1,8 @@
-import { NgModule } from '@angular/core';
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
-import { environment } from 'src/environments/environment';
+import {NgModule} from '@angular/core';
+import {IonicModule, IonicRouteStrategy} from '@ionic/angular';
+import {BrowserModule} from '@angular/platform-browser';
+import {RouteReuseStrategy} from '@angular/router';
+import {Clipboard} from '@ionic-native/clipboard/ngx';
 
 @NgModule({
   declarations: [],
@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     IonicModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }]
+  providers: [Clipboard, {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}]
 })
-export class CoreModule { }
+export class CoreModule {
+}

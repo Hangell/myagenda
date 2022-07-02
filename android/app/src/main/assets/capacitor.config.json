@@ -1,0 +1,6 @@
+{
+	"appId": "com.ana.myagenda",
+	"appName": "myagenda",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

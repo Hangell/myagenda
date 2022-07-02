@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">myagenda</string>
+    <string name="title_activity_main">myagenda</string>
+    <string name="package_name">com.ana.myagenda</string>
+    <string name="custom_url_scheme">com.ana.myagenda</string>
+</resources>

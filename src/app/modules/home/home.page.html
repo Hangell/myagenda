@@ -1,20 +1,222 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
+    <ion-title class="ion-text-center">
+      Meus Contatos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-searchbar placeholder="Pesquisar Contatos" (ionClear)="doSerchClear()"
+                 (ionChange)="doSerchBarChange($event)"></ion-searchbar>
+  <ion-list>
+    <!-- Sliding item with text options on both sides -->
+    <ion-item-sliding *ngFor="let contact of contatos">
+      <ion-item-options side="start">
+        <ion-item-option color="warning" (click)="gotoEditContacts(contact)">
+          <ion-icon name="create" size="small"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="deleteContacts(contact)">
+          <ion-icon name="trash" size="small"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+      <ion-item class="item">
+        <ion-avatar slot="start">
+          <img src="assets/icon/logo.png" alt="">
+        </ion-avatar>
+        <ion-label>
+          <h4>{{contact.nome}} {{contact.sobrenome}}</h4>
+        </ion-label>
+        <ng-container *ngIf="contact.foneProfissional">
+          <a href="tel:{{contact.foneProfissional}}" slot="end">
+            <ion-icon name="call" size="small" color="warning"></ion-icon>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="contact.fonePessoal">
+          <a href="tel:{{contact.fonePessoal}}" slot="end">
+            <ion-icon name="phone-portrait" size="small"></ion-icon>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="contact.emailProfissional">
+          <a href="mailto:{{contact.emailProfissional}}?subject=Olá%20{{contact.nome}}" slot="end">
+            <ion-icon name="mail" size="small" color="warning"></ion-icon>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="contact.emailPessoal">
+          <a href="mailto:{{contact.emailPessoal}}?subject=Olá%20again{{contact.nome}}" slot="end">
+            <ion-icon name="mail" size="small"></ion-icon>
+          </a>
+        </ng-container>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option class="info" (click)="setOpen(contact)">
+          <ion-icon name="eye" size="small"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <br><br><br>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small">
+      <ion-icon name="add" (click)="gotoCreateContacts()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<ion-modal [isOpen]="isModalOpen">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>{{contatos[0].nome}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setClose()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-card>
+          <label><b>Nome</b></label>
+          <a (click)="copyText(contatos[0].nome)" class="ion-float-right" *ngIf="contatos[0].nome">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row  class="detalhe">{{contatos[0].nome}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <label><b>Sobrenome</b></label>
+          <a (click)="copyText(contatos[0].sobrenome)" class="ion-float-right"><ion-icon name="copy" size="small" color="primary" ></ion-icon></a>
+          <ion-row  class="detalhe">{{contatos[0].sobrenome}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <label><b>Empresa</b></label>
+          <a (click)="copyText(contatos[0].empresa)" class="ion-float-right"><ion-icon name="copy" size="small" color="primary" ></ion-icon></a>
+          <ion-row>{{contatos[0].empresa}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>Logradouro</ion-label>
+          <a (click)="copyText(contatos[0].logradouro)" class="ion-float-right" *ngIf="contatos[0].logradouro">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].logradouro}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>Número</ion-label>
+          <a (click)="copyText(contatos[0].numero)" class="ion-float-right" *ngIf="contatos[0].numero">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].numero}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>complemento</ion-label>
+          <a (click)="copyText(contatos[0].complemento)" class="ion-float-right" *ngIf="contatos[0].complemento">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].complemento}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>bairro</ion-label>
+          <a (click)="copyText(contatos[0].bairro)" class="ion-float-right" *ngIf="contatos[0].bairro">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].bairro}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>cidade</ion-label>
+          <a (click)="copyText(contatos[0].cidade)" class="ion-float-right" *ngIf="contatos[0].cidade">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].cidade}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>cep</ion-label>
+          <a (click)="copyText(contatos[0].cep)" class="ion-float-right" *ngIf="contatos[0].cep">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].cep}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>uf</ion-label>
+          <a (click)="copyText(contatos[0].uf)" class="ion-float-right" *ngIf="contatos[0].uf">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].uf}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>Cidade</ion-label>
+          <a (click)="copyText(contatos[0].cidade)" class="ion-float-right" *ngIf="contatos[0].cidade">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].cidade}}</ion-row>
+        </ion-card>
+
+        <ion-card>
+          <ion-label>CEP</ion-label>
+          <a (click)="copyText(contatos[0].cep)" class="ion-float-right" *ngIf="contatos[0].cep">
+            <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+          </a>
+          <ion-row>{{contatos[0].cep}}</ion-row>
+        </ion-card>
+
+
+      <ion-card>
+        <ion-label>Fone Pessoal</ion-label>
+        <a (click)="copyText(contatos[0].fonePessoal)" class="ion-float-right" *ngIf="contatos[0].fonePessoal">
+          <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+        </a>
+        <ion-row>{{contatos[0].fonePessoal}}</ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-label>Fone Profissional</ion-label>
+        <a (click)="copyText(contatos[0].foneProfissional)" class="ion-float-right" *ngIf="contatos[0].foneProfissional">
+          <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+        </a>
+        <ion-row>{{contatos[0].foneProfissional}}</ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-label>Email Pessoal</ion-label>
+        <a (click)="copyText(contatos[0].emailPessoal)" class="ion-float-right" *ngIf="contatos[0].emailPessoal">
+          <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+        </a>
+        <ion-row>{{contatos[0].emailPessoal}}</ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-label>Email Profissional</ion-label>
+        <a (click)="copyText(contatos[0].emailProfissional)" class="ion-float-right" *ngIf="contatos[0].emailProfissional">
+          <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+        </a>
+        <ion-row>{{contatos[0].emailProfissional}}</ion-row>
+      </ion-card>
+
+      <ion-card>
+        <ion-label>Observações</ion-label>
+        <a (click)="copyText(contatos[0].observacoes)" class="ion-float-right" *ngIf="contatos[0].observacoes">
+          <ion-icon name="copy" size="small" color="primary" ></ion-icon>
+        </a>
+        <ion-row>{{contatos[0].observacoes}}</ion-row>
+      </ion-card>
+
+      </ion-list>
+      <br><br><br>
+      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="warning" (click)="setCloseandEdit(contatos[0])" size="small">
+          <ion-icon name="create"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </ion-content>
+  </ng-template>
+</ion-modal>

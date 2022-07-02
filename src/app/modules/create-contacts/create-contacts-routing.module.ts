@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: CreateContactsPage
+  },
+  {
+    path: ':id',
+    component: CreateContactsPage
   }
 ];
 
